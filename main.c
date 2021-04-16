@@ -11,8 +11,20 @@
 */
 
 #include <stdio.h>
+#include "gameBoard.h"
+#define BOARDSIZE 8
 
 int main() {
-    printf("Hello, World!\n");
+    char myBoard[BOARDSIZE][BOARDSIZE];
+    /*
+     * The board co-ordinates read as follows:
+     * arr[y][x] with arr[0][0] being in the top left
+     * x is the horizontals noted by a letter from 'a' to 'h' inclusive
+     * y is the verticals noted by a number from '1' to '8' inclusive
+     */
+    printf("%d\n",myBoard);
+
+    initialiseBoard(myBoard);
+    printBoard(myBoard);
     return 0;
 }

@@ -3,4 +3,4 @@ project(Assignment_2 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(Assignment_2 main.c)
+add_executable(Assignment_2 main.c gameBoard.c gameBoard.h)
