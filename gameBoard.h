@@ -7,6 +7,13 @@
 #define ASSIGNMENT_2_GAMEBOARD_H
 
 void printBoard(char arr[BOARDSIZE][BOARDSIZE]);
+/*
+ * Print a given game board with row and column headers
+ */
 
 void initialiseBoard(char arr[BOARDSIZE][BOARDSIZE]);
+/*
+ * Generate and populate a game board
+ */
+
 #endif //ASSIGNMENT_2_GAMEBOARD_H
