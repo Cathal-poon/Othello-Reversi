@@ -12,7 +12,9 @@
 
 #include <stdio.h>
 #include "gameBoard.h"
+#include "players.h"
 #define BOARDSIZE 8
+
 
 int main() {
     char myBoard[BOARDSIZE][BOARDSIZE];
@@ -23,6 +25,8 @@ int main() {
      * y is the verticals noted by a number from '1' to '8' inclusive
      */
     printf("%d\n",myBoard);
+
+    player player1= {"John",'b',2};
 
     initialiseBoard(myBoard);
     printBoard(myBoard);
