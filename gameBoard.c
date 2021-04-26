@@ -38,10 +38,25 @@ void initialiseBoard(char (*arr)[8]) {
 
     // add the 4 starting positions
     // white starts at d4 and e5
-    arr[4-1][4-1] = 'w'; // d4
-    arr[5-1][5-1] = 'w'; // e5
+    // removed manual changing to use custom function
+    //arr[4-1][4-1] = '1'; // d4
+    //arr[5-1][5-1] = '2'; // e5
+    changeCell(arr,'d',4,'w');
+    changeCell(arr,'e',5,'w');
     // black starts at d5 and e4
-    arr[5-1][4-1] = 'b'; // d5
-    arr[4-1][5-1] = 'w'; // e4
+    //arr[5-1][4-1] = '3'; // d5
+    //arr[4-1][5-1] = '4'; // e4
+    changeCell(arr,'d',5,'b');
+    changeCell(arr,'e',4,'b');
+
+
+}
+
+void changeCell(char (*arr)[8], char xPos, int yPos, char colour) {
+    int x,y;
+    x = xPos - 'a'; // maps board column to array indexs
+    y = yPos - 1; // maps board rows to array indexs
+
+    arr[y][x] = colour;
 }
 

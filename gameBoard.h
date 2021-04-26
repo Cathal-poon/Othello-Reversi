@@ -16,4 +16,9 @@ void initialiseBoard(char arr[BOARDSIZE][BOARDSIZE]);
  * Generate and populate a game board
  */
 
+void changeCell(char arr[BOARDSIZE][BOARDSIZE], char x, int y, char c);
+/*
+ * Set a certain cell to a specific colour
+ */
+
 #endif //ASSIGNMENT_2_GAMEBOARD_H
