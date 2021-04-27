@@ -27,6 +27,8 @@ int main() {
     printf("%d\n",myBoard);
 
     player player1= {"John",'b',2};
+    player1.name = getName();
+    printf("%s",player1.name);
 
     initialiseBoard(myBoard);
     printBoard(myBoard);
