@@ -24,7 +24,6 @@ int main() {
      * x is the horizontals noted by a letter from 'a' to 'h' inclusive
      * y is the verticals noted by a number from '1' to '8' inclusive
      */
-    printf("%d\n",myBoard);
 
     /*
     player player1= {"John",'b',2};
