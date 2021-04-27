@@ -13,4 +13,6 @@ typedef struct {
 
 char * getName();
 
+void printPlayers(const player  * player1, const player * player2);
+
 #endif //ASSIGNMENT_2_PLAYERS_H
