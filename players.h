@@ -11,7 +11,7 @@ typedef struct {
     int score;
 } player;
 
-char * getName();
+
 
 void printPlayers(const player  * player1, const player * player2);
 
