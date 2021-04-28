@@ -24,13 +24,15 @@ int main() {
      * x is the horizontals noted by a letter from 'a' to 'h' inclusive
      * y is the verticals noted by a number from '1' to '8' inclusive
      */
+    player player1, player2;
 
+    initPlayers(&player1,&player2);
+    printPlayers(&player1,&player2);
     /*
     player player1= {"John",'b',2};
     player1.name = getName();
     printf("%s",player1.name);
     */
-
     initialiseBoard(myBoard);
     printBoard(myBoard);
     return 0;

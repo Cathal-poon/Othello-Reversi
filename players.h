@@ -15,4 +15,6 @@ typedef struct {
 
 void printPlayers(const player  * player1, const player * player2);
 
+void initPlayers(player * player1, player * player2);
+
 #endif //ASSIGNMENT_2_PLAYERS_H
