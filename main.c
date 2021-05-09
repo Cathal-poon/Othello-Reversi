@@ -11,29 +11,31 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "gameBoard.h"
 #include "players.h"
 #define BOARDSIZE 8
 
 
 int main() {
-    char myBoard[BOARDSIZE][BOARDSIZE];
+    boardData myBoard;
     /*
      * The board co-ordinates read as follows:
      * arr[y][x] with arr[0][0] being in the top left
      * x is the horizontals noted by a letter from 'a' to 'h' inclusive
      * y is the verticals noted by a number from '1' to '8' inclusive
      */
-    player player1, player2;
 
-    initPlayers(&player1,&player2);
-    printPlayers(&player1,&player2);
-    /*
-    player player1= {"John",'b',2};
-    player1.name = getName();
-    printf("%s",player1.name);
-    */
-    initialiseBoard(myBoard);
-    printBoard(myBoard);
+
+    initPlayers(&(myBoard.player1),&(myBoard.player2));
+
+
+    printPlayers(&(myBoard.player1),&(myBoard.player2));
+    myBoard.board = initialiseBoard();
+
+    printBoard(&myBoard);
+
+
+    free(myBoard.board);
     return 0;
 }

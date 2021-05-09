@@ -19,15 +19,20 @@ struct _player{
 */
 
 char *getName() {
+     /*
+      * Read in the name of a player from the console and save it to a block of memory
+      * Return a pointer to that block of memory
+      */
+
     char *name = (char*) malloc(MAX_CHAR * sizeof(char));
 
     if (name == NULL){
         printf("Error allocating memory");
         return NULL;
     } else {
-        fflush(stdin);
-        scanf("%s",name);
-        name[strcspn(name,"\n")] = '\0'; // remove the trailing newline character and replace it with a null character
+        fflush(stdin); // clear the input buffer
+        fgets(name, MAX_CHAR, stdin); // read
+        name[strcspn(name,"\n\0")] = '\0'; // remove the trailing newline or null character and replace it with a null character
         return name;
     }
 }
