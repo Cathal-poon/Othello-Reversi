@@ -8,6 +8,7 @@
  * x is the horizontals noted by a letter from 'a' to 'h' inclusive
  * y is the verticals noted by a number from '1' to '8' inclusive
 */
+
 #include "gameBoard.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -76,8 +77,8 @@ char ** initialiseBoard() {
 
 void changeCell(char **arr, char xPos, int yPos, char colour) {
     int x,y;
-    x = xPos - 'a'; // maps board column to array indexs
-    y = yPos - 1; // maps board rows to array indexs
+    x = xPos - 'a'; // maps board column to array indexes
+    y = yPos - 1; // maps board rows to array indexes
 
     arr[y][x] = colour;
 }

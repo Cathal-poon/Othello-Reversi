@@ -13,12 +13,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "gameBoard.h"
-#include "players.h"
 #define BOARDSIZE 8
 
 
 int main() {
-    boardData myBoard;
+    boardData myBoard; // struct storing the game board and play structs
     /*
      * The board co-ordinates read as follows:
      * arr[y][x] with arr[0][0] being in the top left
@@ -26,8 +25,7 @@ int main() {
      * y is the verticals noted by a number from '1' to '8' inclusive
      */
 
-
-    initPlayers(&(myBoard.player1),&(myBoard.player2));
+    initPlayers(&(myBoard.player1),&(myBoard.player2)); // initialise the players
 
 
     printPlayers(&(myBoard.player1),&(myBoard.player2));
@@ -36,6 +34,6 @@ int main() {
     printBoard(&myBoard);
 
 
-    free(myBoard.board);
+    free(myBoard.board); //free the memory allocated for the board
     return 0;
 }
