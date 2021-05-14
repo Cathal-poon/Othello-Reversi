@@ -42,9 +42,14 @@ char ** initialiseBoard() {
 
     char **arr;
     char *ptr; // points to the first element of the first row of the 2d array
+    int len; // the size of the memory block that needs to be allocated
+
+    len = 0;
+    len = BOARDSIZE * sizeof(char *); // first 8 spaces for pointers to char
+    len += (BOARDSIZE * BOARDSIZE) * sizeof(char); // remaining 64(8*8) spaces to store all the char
 
     // allocate block of memory
-    arr = (char **) malloc((BOARDSIZE + (BOARDSIZE * BOARDSIZE)) * sizeof(char));
+    arr = (char **) malloc(len); // allocate the memory
 
     // set the first BOARDSIZE (8) elements to pointers, pointing to locations in that block of memory
     ptr = (char *) (arr + BOARDSIZE); // set ptr to the location of the first element
