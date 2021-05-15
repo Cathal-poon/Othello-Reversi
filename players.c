@@ -31,7 +31,7 @@ char *getName() {
     } else {
         fflush(stdin); // clear the input buffer
         fgets(name, MAX_CHAR, stdin); // read
-        name[strcspn(name,"\n\0")] = '\0'; // remove the trailing newline or null character and replace it with a null character
+        name[strcspn(name,"\n\0")] = '\0'; // remove the trailing newline or null character and replace it with a null character ( if there is no newline character may possibly write outside the memory )
     }
     return name;
 }
