@@ -51,31 +51,38 @@ char ** initialiseBoard() {
     // allocate block of memory
     arr = (char **) malloc(len); // allocate the memory
 
-    // set the first BOARDSIZE (8) elements to pointers, pointing to locations in that block of memory
-    ptr = (char *) (arr + BOARDSIZE); // set ptr to the location of the first element
-    for (int i = 0; i < BOARDSIZE; ++i) {
-        arr[i] = ptr + (BOARDSIZE * i); // set each index pointing to the corresponding location in the 2d array
-    }
 
-    // populate the board with blank spaces '*'
-    for (int i = 0; i < BOARDSIZE; ++i) {
-        for (int j = 0; j < BOARDSIZE; ++j) {
-            arr[i][j] = '*';
+    // check if there was an issue allocating the memory
+    if (arr == NULL){
+        printf("Error allocating Memory");
+    }else{
+        // set the first BOARDSIZE (8) elements to pointers, pointing to locations in that block of memory
+        ptr = (char *) (arr + BOARDSIZE); // set ptr to the location of the first element
+        for (int i = 0; i < BOARDSIZE; ++i) {
+            arr[i] = ptr + (BOARDSIZE * i); // set each index pointing to the corresponding location in the 2d array
         }
+
+        // populate the board with blank spaces '*'
+        for (int i = 0; i < BOARDSIZE; ++i) {
+            for (int j = 0; j < BOARDSIZE; ++j) {
+                arr[i][j] = '*';
+            }
+        }
+
+        // add the 4 starting positions
+        // white starts at d4 and e5
+        // removed manual changing to use custom function
+        //arr[4-1][4-1] = '1'; // d4
+        //arr[5-1][5-1] = '2'; // e5
+        changeCell(arr,'d',4,'w');
+        changeCell(arr,'e',5,'w');
+        // black starts at d5 and e4
+        //arr[5-1][4-1] = '3'; // d5
+        //arr[4-1][5-1] = '4'; // e4
+        changeCell(arr,'d',5,'b');
+        changeCell(arr,'e',4,'b');
     }
 
-    // add the 4 starting positions
-    // white starts at d4 and e5
-    // removed manual changing to use custom function
-    //arr[4-1][4-1] = '1'; // d4
-    //arr[5-1][5-1] = '2'; // e5
-    changeCell(arr,'d',4,'w');
-    changeCell(arr,'e',5,'w');
-    // black starts at d5 and e4
-    //arr[5-1][4-1] = '3'; // d5
-    //arr[4-1][5-1] = '4'; // e4
-    changeCell(arr,'d',5,'b');
-    changeCell(arr,'e',4,'b');
 
     return arr;
 }
