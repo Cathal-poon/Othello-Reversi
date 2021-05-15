@@ -55,7 +55,6 @@ char ** initialiseBoard() {
     // check if there was an issue allocating the memory
     if (arr == NULL){
         printf("Error allocating Memory");
-        exit(3);
     }else{
         // set the first BOARDSIZE (8) elements to pointers, pointing to locations in that block of memory
         ptr = (char *) (arr + BOARDSIZE); // set ptr to the location of the first element
