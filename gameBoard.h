@@ -1,6 +1,9 @@
 //
 // Created by Cathal on 16/04/2021.
 //
+
+// used to create and manage and 8 * 8 square game board. Can do n * n by modifying "BOARDSIZE"
+
 #include "players.h"
 
 typedef struct {
