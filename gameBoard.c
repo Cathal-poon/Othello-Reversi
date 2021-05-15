@@ -12,7 +12,7 @@
 #include "gameBoard.h"
 #include <stdio.h>
 #include <stdlib.h>
-#define BOARDSIZE 8
+
 
 void printBoard(boardData *gameBoard) {
     char **arr = gameBoard->board; // assign arr to point to the current board
