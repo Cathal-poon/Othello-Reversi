@@ -51,7 +51,6 @@ char ** initialiseBoard() {
     // allocate block of memory
     arr = (char **) malloc(len); // allocate the memory
 
-
     // check if there was an issue allocating the memory
     if (arr == NULL){
         printf("Error allocating Memory");

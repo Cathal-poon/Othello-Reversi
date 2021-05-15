@@ -25,10 +25,8 @@ int main() {
      * y is the verticals noted by a number from '1' to '8' inclusive
      */
 
-    initPlayers(&(myBoard.player1),&(myBoard.player2)); // initialise the players
-
-
     myBoard.board = initialiseBoard();
+    initPlayers(&(myBoard.player1),&(myBoard.player2)); // initialise the players
 
     printPlayers(&(myBoard.player1),&(myBoard.player2));
     printBoard(&myBoard);
