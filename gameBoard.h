@@ -6,13 +6,14 @@
 
 #include "players.h"
 
+#define BOARDSIZE 8 // size of the n x n game board
+
+// Structure to store information about the game.
 typedef struct {
     char **board;
     player player1;
     player player2;
 } boardData;
-
-#define BOARDSIZE 8
 
 #ifndef ASSIGNMENT_2_GAMEBOARD_H
 #define ASSIGNMENT_2_GAMEBOARD_H
