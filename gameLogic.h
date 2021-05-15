@@ -1,0 +1,8 @@
+//
+// Created by Cathal on 15/05/2021.
+//
+
+#ifndef ASSIGNMENT_2_GAMELOGIC_H
+#define ASSIGNMENT_2_GAMELOGIC_H
+
+#endif //ASSIGNMENT_2_GAMELOGIC_H
