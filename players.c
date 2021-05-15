@@ -28,13 +28,12 @@ char *getName() {
 
     if (name == NULL){
         printf("Error allocating memory");
-        return NULL;
     } else {
         fflush(stdin); // clear the input buffer
         fgets(name, MAX_CHAR, stdin); // read
         name[strcspn(name,"\n\0")] = '\0'; // remove the trailing newline or null character and replace it with a null character
-        return name;
     }
+    return name;
 }
 
 void printPlayers(const player  * const player1, const player * const player2) {
