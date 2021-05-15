@@ -8,7 +8,8 @@
 #include <string.h>
 #include <time.h>
 
-#define MAX_CHAR 10
+#define MAX_CHAR 10 // character limit for the name of a player
+
 /*
 struct _player{
     char *name;
