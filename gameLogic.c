@@ -54,7 +54,7 @@ int move(boardData *gameBoard, player currentPlayer) {
         // check if the input is valid
         if(inLimits(myX, myY)){
             // check if the move is valid
-            changeCell(gameBoard->board, myX, myY, /*currentPlayer.colour*/ 'T');
+            changeCell(gameBoard->board, myX, myY, currentPlayer.colour);
             repeat = 0;
         }
 
