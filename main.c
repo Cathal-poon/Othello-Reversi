@@ -12,7 +12,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "gameBoard.h"
+#include "gameLogic.h"
+//#include "gameBoard.h"
+//#include "players.h"
 #define BOARDSIZE 8
 
 
@@ -30,6 +32,13 @@ int main() {
 
     printPlayers(&(myBoard.player1),&(myBoard.player2));
     printBoard(&myBoard);
+
+    for (int i = 0; i < BOARDSIZE; ++i) {
+        for (int j = 0; j < BOARDSIZE; ++j) {
+            move(&myBoard,myBoard.player1);
+            printBoard(&myBoard);
+        }
+    }
 
 
     free(myBoard.board); //free the memory allocated for the board
