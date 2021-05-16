@@ -18,7 +18,7 @@ typedef struct {
 #ifndef ASSIGNMENT_2_GAMEBOARD_H
 #define ASSIGNMENT_2_GAMEBOARD_H
 
-void printBoard(boardData * gameBoard);
+void printBoard(boardData gameBoard);
 /*
  * Print a given game board with row and column headers
  */

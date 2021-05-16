@@ -14,8 +14,8 @@
 #include <stdlib.h>
 
 
-void printBoard(boardData *gameBoard) {
-    char **arr = gameBoard->board; // assign arr to point to the current board
+void printBoard(boardData gameBoard) {
+    char **arr = gameBoard.board; // assign arr to point to the current board
 
     printf("\n");
     printf("%c", ' ');
@@ -44,7 +44,6 @@ char ** initialiseBoard() {
     char *ptr; // points to the first element of the first row of the 2d array
     int len; // the size of the memory block that needs to be allocated
 
-    len = 0;
     len = BOARDSIZE * sizeof(char *); // first 8 spaces for pointers to char
     len += (BOARDSIZE * BOARDSIZE) * sizeof(char); // remaining 64(8*8) spaces to store all the char
 
