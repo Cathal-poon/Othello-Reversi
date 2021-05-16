@@ -32,7 +32,8 @@ int main() {
     printPlayers(&(myBoard.player1),&(myBoard.player2));
     printBoard(myBoard);
 
-
+    doMove(&myBoard,myBoard.player1);
+    printBoard(myBoard);
 
 
     free(myBoard.board); //free the memory allocated for the board
