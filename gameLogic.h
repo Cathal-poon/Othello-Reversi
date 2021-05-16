@@ -14,7 +14,5 @@ int move(boardData * gameBoard, player currentPlayer);
  * Returns 0 if a valid move was played and 1 if the player passed
  */
 
-int moveCheck(boardData * gameBoard, char x, int y, char colour);
-
 
 #endif //ASSIGNMENT_2_GAMELOGIC_H

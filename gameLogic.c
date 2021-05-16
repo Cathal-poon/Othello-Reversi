@@ -17,13 +17,13 @@ int NW(boardData * gameBoard, char x, int y, char colour);
 
 int inLimits(char x, int y);
 /*
- * Check if a location is in side the game board. return 1 if yes and 0 if no
+ * Check if a location is inside the game board. return 1 if yes and 0 if no
  */
 
-int moveCheck(boardData *gameBoard, char x, int y, char colour) {
-
-    return 0;
-}
+int moveCheck(boardData * gameBoard, char x, int y, char colour);
+/*
+ * Check if a given move is valid. return 1 if yes and 0 if no
+ */
 
 int move(boardData *gameBoard, player currentPlayer) {
     char myX;
