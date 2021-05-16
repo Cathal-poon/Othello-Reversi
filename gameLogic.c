@@ -25,7 +25,7 @@ int moveCheck(boardData * gameBoard, char x, int y, char colour);
  * Check if a given move is valid. return 1 if yes and 0 if no
  */
 
-int move(boardData *gameBoard, player currentPlayer) {
+int doMove(boardData *gameBoard, player currentPlayer) {
     char myX;
     int myY;
     int repeat = 1;

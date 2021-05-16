@@ -7,7 +7,7 @@
 #ifndef ASSIGNMENT_2_GAMELOGIC_H
 #define ASSIGNMENT_2_GAMELOGIC_H
 
-int move(boardData * gameBoard, player currentPlayer);
+int doMove(boardData * gameBoard, player currentPlayer);
 /*
  * Takes in a move from the player and checks if that move is a valid move.
  * Keeps asking until a valid move is entered or the player has passed
