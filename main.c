@@ -30,7 +30,7 @@ int main() {
     initPlayers(&(myBoard.player1),&(myBoard.player2)); // initialise the players
 
     printPlayers(&(myBoard.player1),&(myBoard.player2));
-    printBoard(&myBoard);
+    printBoard(myBoard);
 
 
 
