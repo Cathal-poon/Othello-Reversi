@@ -10,12 +10,11 @@
     Assignment 2
 */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include "gameLogic.h"
 //#include "gameBoard.h"
 //#include "players.h"
-#define BOARDSIZE 8
+
 
 
 int main() {
