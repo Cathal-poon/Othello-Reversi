@@ -64,7 +64,7 @@ int move(boardData *gameBoard, player currentPlayer) {
 }
 
 int inLimits(char xPos, int yPos) {
-    int bool = 0;
+    int myBool = 0;
     int x,y;
 
     x = xPos - 'a';
@@ -76,8 +76,8 @@ int inLimits(char xPos, int yPos) {
             y >= 0          &&
             y < BOARDSIZE
             ){
-        bool = 1;
+        myBool = 1;
     }
 
-        return bool;
+        return myBool;
 }
