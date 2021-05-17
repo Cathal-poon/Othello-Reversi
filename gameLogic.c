@@ -279,7 +279,7 @@ short int directionCheck(boardData *gameBoard, char xPos, int yPos, char colour,
         if (y < 0 || y >= BOARDSIZE || x < 0 || x >= BOARDSIZE){
             myBool = 0;
             break;
-        }else if (arr[y][x] == '*'){
+        }else if (arr[y][x] == '*'){ // check if it's an empty space
             myBool = 0;
             break;
         }else if (arr[y][x] == colour){
@@ -337,7 +337,7 @@ short int doDirection(boardData *gameBoard, char xPos, int yPos, char colour, in
 
         if (y < 0 || y >= BOARDSIZE || x < 0 || x >= BOARDSIZE){
             break;
-        }else if (arr[y][x] == '*' || arr[y][x] == colour){
+        }else if (arr[y][x] == '*' || arr[y][x] == colour){ // check if it's an empty space or has the same colour
             break;
         }else{
             changeCell(gameBoard->board, x + 'a', 1 + y, colour);

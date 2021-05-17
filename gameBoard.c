@@ -18,15 +18,29 @@ void printBoard(boardData gameBoard) {
     char **arr = gameBoard.board; // assign arr to point to the current board
 
     printf("\n");
-    printf("%c", ' ');
+    printf("%c  ", ' '); // print a blank buffer space to accommodate for the empty row number
     for (int i = 0; i < BOARDSIZE; ++i) {
-        printf("%3c", 'a'+i);
+        printf("  %c   ", 'a'+i);// print the column character
     }
     printf("\n");
+    // print a Horizontal buffer
+    printf("%c  ", ' '); // print a blank buffer space to accommodate for the empty row number
     for (int i = 0; i < BOARDSIZE; ++i) {
-        printf("%d", i+1);
+        printf("----- ");
+    }
+    printf("\n");
+
+    for (int i = 0; i < BOARDSIZE; ++i) {
+        printf("%d |", i+1); // print the row number
         for (int j = 0; j < BOARDSIZE; ++j) {
-            printf("%3c",arr[i][j]);
+            printf("  %c  |",arr[i][j]);
+        }
+        printf("\n");
+
+        // print a Horizontal buffer
+        printf("%c  ", ' '); // print a blank buffer space to accommodate for the empty row number
+        for (int i = 0; i < BOARDSIZE; ++i) {
+            printf("----- ");
         }
         printf("\n");
     }
