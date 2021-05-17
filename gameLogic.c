@@ -5,19 +5,18 @@
 #include "gameLogic.h"
 #include <stdio.h>
 
-// function to check every cardinal direction
-short int N(boardData * gameBoard, char x, int y, char colour, int n);
-short int NE(boardData * gameBoard, char x, int y, char colour, int n);
-short int E(boardData * gameBoard, char x, int y, char colour, int n);
-short int SE(boardData * gameBoard, char x, int y, char colour, int n);
-short int S(boardData * gameBoard, char x, int y, char colour, int n);
-short int SW(boardData * gameBoard, char x, int y, char colour, int n);
-short int W(boardData * gameBoard, char x, int y, char colour, int n);
-short int NW(boardData * gameBoard, char x, int y, char colour, int n);
 
+short int directionCheck(boardData * gameBoard, char x, int y, char colour, int direction);
+// checks a given direction indicated by "direction"
+short int doDirection(boardData * gameBoard, char x, int y, char colour, int n);
+// does the move indicated by direction
 int inLimits(char x, int y);
 /*
  * Check if a location is inside the game board. return 1 if yes and 0 if no
+ */
+void doMove(boardData * gameBoard, char x, int y, char colour, unsigned short int encodedMoves);
+/*
+ * Do all the moves in encoded moves
  */
 
 unsigned short int moveCheck(boardData * gameBoard, char x, int y, char colour);
@@ -41,16 +40,17 @@ unsigned short int moveCheck(boardData * gameBoard, char x, int y, char colour);
  *
  */
 
-int doMove(boardData *gameBoard, player currentPlayer) {
+
+int playerTurn(boardData *gameBoard, player currentPlayer) {
     char myX;
     int myY;
     int repeat = 1;
-    int valid;
+    unsigned short valid;
 
-
+    printf("%s's (%c) turn\n", currentPlayer.name, currentPlayer.colour);
     do {
         fflush(stdin);
-        printf("\nPlease enter a valid move location on the board, letter then number; or enter 'p' for pass:");
+        printf("Please enter a valid move location on the board, letter then number; or enter 'p' for pass:\n");
         myX = (char) getchar(); // read in the letter
 
         // if the character is uppercase convert it to a lowercase
@@ -72,7 +72,10 @@ int doMove(boardData *gameBoard, player currentPlayer) {
             // check if the move is valid
             valid = moveCheck(gameBoard, myX, myY, currentPlayer.colour);
             if (valid){
+                // do the move
                 changeCell(gameBoard->board, myX, myY, currentPlayer.colour);
+                doMove(gameBoard, myX, myY, currentPlayer.colour, valid);
+                updateScore(gameBoard);
                 repeat = 0;
             }
         }
@@ -80,6 +83,36 @@ int doMove(boardData *gameBoard, player currentPlayer) {
     } while (repeat);
 
     return repeat;
+}
+
+void updateScore(boardData *gameBoard) {
+    int black = 0, white = 0; // counters to keep track of the number of pieces of their respective colour on the board
+    char buffer;
+    char ** arr;
+
+    arr = gameBoard->board;
+
+    for (int i = 0; i < BOARDSIZE; ++i) {
+        for (int j = 0; j < BOARDSIZE; ++j) {
+            buffer = arr[i][j];
+            if (buffer == 'b'){
+                black += 1;
+            } else if(buffer == 'w'){
+                white += 1;
+            }
+        }
+    }
+
+
+    if (gameBoard->player1.colour == 'b'){
+        gameBoard->player1.score = black;
+        gameBoard->player2.score = white;
+    } else{
+        gameBoard->player2.score = black;
+        gameBoard->player1.score = white;
+    }
+
+
 }
 
 int inLimits(char xPos, int yPos) {
@@ -127,35 +160,51 @@ unsigned short int moveCheck(boardData *gameBoard, char xPos, int yPos, char col
     // check if it's an empty location
     if (gameBoard->board[y][x] == '*'){
         // check all directions to see if there is a valid move
-        total += N(gameBoard,xPos,yPos,colour,1); // add the return value to the total (should be 0 or 1)
-        total <<= 1;
-/*
-        total += NE(gameBoard,xPos,yPos,colour,0);
-        total <<= 1;
+        total += directionCheck(gameBoard,xPos,yPos,colour,7); // add the return value to the total (should be 0 or 1)
 
-        total += E(gameBoard,xPos,yPos,colour,0);
         total <<= 1;
+        total += directionCheck(gameBoard,xPos,yPos,colour,6);
 
-        total += SE(gameBoard,xPos,yPos,colour,0);
         total <<= 1;
+        total += directionCheck(gameBoard,xPos,yPos,colour,5);
 
-        total += S(gameBoard,xPos,yPos,colour,0);
         total <<= 1;
+        total += directionCheck(gameBoard,xPos,yPos,colour,4);
 
-        total += SW(gameBoard,xPos,yPos,colour,0);
         total <<= 1;
+        total += directionCheck(gameBoard,xPos,yPos,colour,3);
 
-        total += W(gameBoard,xPos,yPos,colour,0);
         total <<= 1;
+        total += directionCheck(gameBoard,xPos,yPos,colour,2);
 
-        total += NW(gameBoard,xPos,yPos,colour,0);
-        total <<= 1;*/
+        total <<= 1;
+        total += directionCheck(gameBoard,xPos,yPos,colour,1);
+
+        total <<= 1;
+        total += directionCheck(gameBoard,xPos,yPos,colour,0);
+
     }
 
     return total;
 }
 
-short int N(boardData *gameBoard, char xPos, int yPos, char colour, int n) {
+short int directionCheck(boardData *gameBoard, char xPos, int yPos, char colour, int direction) {
+    /*
+     * Total encodes all possible moves and store them bitwise
+     * N    - 7
+     * NE   - 6
+     * E    - 5
+     * SE   - 4
+     * S    - 3
+     * SW   - 2
+     * W    - 1
+     * NW   - 0
+     * 1 indicating it's a valid move
+     * 0 indicating invalid
+     * if all directions are valid then it will return 255
+     * if only N is valid then it will return 128
+     * if S and W are valid it will return 6
+     */
     char **arr = gameBoard->board;
     short int myBool = 0;
     int x,y;
@@ -165,12 +214,12 @@ short int N(boardData *gameBoard, char xPos, int yPos, char colour, int n) {
 
     /*
      * Keep stepping up until 1 of these cases is reached
-     * If I reach the edge of the board, then everything before hasn't been a vaild move therefore it's not a valid move flag it as such and break;
+     * If I reach the edge of the board, then everything before hasn't been a valid move therefore it's not a valid move flag it as such and break;
      * If I reach an empty space same logic as edge of board and break;
      * If I reach the same colour then there are 2 cases,
      *      either  this is the first piece I checked In which case the move is invalid, the default case so don't change anything and break;
      *      or      this isn't the first piece I checked, because every other case would've broke the loop that means that there were at least 1 piece of a different colour, therefore the move is valid and has been flagged as such so don't change the value and break;
-     * If I reach a different colour piece it means that this move could possible be vaild so flag it as such
+     * If I reach a different colour piece it means that this move could possible be valid so flag it as such
      *
      * If I reach the "edge" / "go out of bounds" then bool = 0; break;
      * If I reach an empty space bool = 0; break;
@@ -180,10 +229,54 @@ short int N(boardData *gameBoard, char xPos, int yPos, char colour, int n) {
 
 
     while (1){
-        x = x;
-        y = y - 1;
 
-        if (y < 0){
+        switch (direction) {
+            case 0:
+                // NW
+                x = x - 1;
+                y = y - 1;
+                break;
+            case 1:
+                // W
+                x = x - 1;
+                y = y;
+                break;
+            case 2:
+                // SW
+                x = x - 1;
+                y = y + 1;
+                break;
+            case 3:
+                // S
+                x = x;
+                y = y + 1;
+                break;
+            case 4:
+                // SE
+                x = x + 1;
+                y = y + 1;
+                break;
+            case 5:
+                // E
+                x = x + 1;
+                y = y;
+                break;
+            case 6:
+                // NE
+                x = x + 1;
+                y = y - 1;
+                break;
+            case 7:
+                // N
+                x = x;
+                y = y - 1;
+                break;
+            default:
+                x = x;
+                y = y - 1;
+        }
+
+        if (y < 0 || y >= BOARDSIZE || x < 0 || x >= BOARDSIZE){
             myBool = 0;
             break;
         }else if (arr[y][x] == '*'){
@@ -195,26 +288,102 @@ short int N(boardData *gameBoard, char xPos, int yPos, char colour, int n) {
             myBool = 1;
         }
     }
-
-    if(n && myBool){
-        x = xPos - 'a';
-        y = yPos - 1;
-
-        while (1){
-            x = x;
-            y = y - 1;
-
-            if (y < 0){
-                break;
-            }else if (arr[y][x] == '*' || arr[y][x] == colour){
-                break;
-            }else{
-                changeCell(gameBoard->board, xPos, 1 + y, colour);
-            }
-        }
-    }
-
     return myBool;
 }
 
+short int doDirection(boardData *gameBoard, char xPos, int yPos, char colour, int direction) {
+    char ** arr = gameBoard->board;
+    int x,y;
 
+
+    x = xPos - 'a';
+    y = yPos - 1;
+
+    while (1){
+        switch (direction) {
+            case 0:
+                x = x - 1;
+                y = y - 1;
+                break;
+            case 1:
+                x = x - 1;
+                y = y;
+                break;
+            case 2:
+                x = x - 1;
+                y = y + 1;
+                break;
+            case 3:
+                x = x;
+                y = y + 1;
+                break;
+            case 4:
+                x = x + 1;
+                y = y + 1;
+                break;
+            case 5:
+                x = x + 1;
+                y = y;
+                break;
+            case 6:
+                x = x + 1;
+                y = y - 1;
+                break;
+            case 7:
+                x = x;
+                y = y - 1;
+                break;
+        }
+
+        if (y < 0 || y >= BOARDSIZE || x < 0 || x >= BOARDSIZE){
+            break;
+        }else if (arr[y][x] == '*' || arr[y][x] == colour){
+            break;
+        }else{
+            changeCell(gameBoard->board, x + 'a', 1 + y, colour);
+        }
+    }
+
+
+
+    return 0;
+}
+
+void doMove(boardData * gameBoard, char xPos, int yPos, char colour, unsigned short int encodedMoves) {
+    // bitwise and checks a specific location in the encoded moves and returns 0 if there's nothing or > 1 if there is something
+    if(encodedMoves & 128){
+        doDirection(gameBoard, xPos, yPos, colour, 7);
+    }
+
+    if(encodedMoves & 64){
+        doDirection(gameBoard, xPos, yPos, colour, 6);
+    }
+
+    if(encodedMoves & 32){
+        doDirection(gameBoard, xPos, yPos, colour, 5);
+    }
+
+    if(encodedMoves & 16){
+        doDirection(gameBoard, xPos, yPos, colour, 4);
+    }
+
+    if(encodedMoves & 8){
+        doDirection(gameBoard, xPos, yPos, colour, 3);
+    }
+
+    if(encodedMoves & 4){
+        doDirection(gameBoard, xPos, yPos, colour, 2);
+    }
+
+    if(encodedMoves & 2){
+        doDirection(gameBoard, xPos, yPos, colour, 1);
+    }
+
+    if(encodedMoves & 1){
+        doDirection(gameBoard, xPos, yPos, colour, 0);
+    }
+
+}
+
+
+// 小der

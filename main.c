@@ -18,6 +18,9 @@
 
 
 int main() {
+    int gameStatus = 1;
+    int passCounter = 0, passBuffer;
+    player * firstPlayer, * secondPlayer;
     boardData myBoard; // struct storing the game board and play structs
     /*
      * The board co-ordinates read as follows:
@@ -29,11 +32,38 @@ int main() {
     myBoard.board = initialiseBoard();
     initPlayers(&(myBoard.player1),&(myBoard.player2)); // initialise the players
 
-    printPlayers(&(myBoard.player1),&(myBoard.player2));
-    printBoard(myBoard);
+    if (myBoard.player1.colour == 'b'){
+        firstPlayer = &myBoard.player1;
+        secondPlayer = &myBoard.player2;
+    }else {
+        firstPlayer = &myBoard.player2;
+        secondPlayer = &myBoard.player1;
+    }
 
-    doMove(&myBoard,myBoard.player1);
-    printBoard(myBoard);
+    do {
+        printPlayers(&(myBoard.player1),&(myBoard.player2));
+        printBoard(myBoard);
+
+        passBuffer = playerTurn(&myBoard,*firstPlayer);
+        passCounter = (passCounter * passBuffer) + passBuffer;
+
+        if(passCounter > 1){
+            gameStatus = 0;
+            break;
+        }
+
+        printPlayers(&(myBoard.player1),&(myBoard.player2));
+        printBoard(myBoard);
+
+        passBuffer = playerTurn(&myBoard,*secondPlayer);
+        passCounter = (passCounter * passBuffer) + passBuffer;
+
+        if(passCounter > 1){
+            gameStatus = 0;
+            break;
+        }
+    } while (gameStatus);
+
 
 
     free(myBoard.board); //free the memory allocated for the board
