@@ -49,13 +49,13 @@ int playerTurn(boardData *gameBoard, player currentPlayer) {
     int repeat = 1, moveChoices;
     unsigned short valid;
 
-    printPlayers(&(gameBoard->player1),&(gameBoard->player2));
-    moveChoices = updateBoard(*gameBoard, currentPlayer);
-    printf("%s's (%c) turn\n", currentPlayer.name, currentPlayer.colour);
+    printPlayers(&(gameBoard->player1),&(gameBoard->player2)); // print the score board
+    moveChoices = updateBoard(*gameBoard, currentPlayer); // check if the current player has any valid moves
+    printf("%s's (%c) turn\n", currentPlayer.name, currentPlayer.colour); // notify the user that it's their turn
 
     if(moveChoices == 0){ // there are no vaild moves
-        printf("No valid Moves. Passed\n");
-        return 1; //pass
+        printf("No valid Moves. Passed\n"); // notify the user that they have been passed
+        return 1; // indicate a pass, move onto the next player
     }
 
     do {
@@ -151,23 +151,23 @@ int updateBoard(boardData gameBoard, player currentPlayer) {
 
     for (int i = 0; i < BOARDSIZE; ++i) {
         for (int j = 0; j < BOARDSIZE; ++j) {
-            xPos = 'a' + j;
-            yPos = 1 + i;
+            xPos = 'a' + j; // convert from array indexing to to move notation
+            yPos = 1 + i; // convert from array indexing to to move notation
 
             arr[i][j] = gameBoard.board[i][j]; // copy over the current board's state
-            valid = moveCheck(&gameBoard, xPos, yPos, currentPlayer.colour);
+            valid = moveCheck(&gameBoard, xPos, yPos, currentPlayer.colour); // check if the current tile is a valid move
             if (valid){
-                changeCell(arr,xPos,yPos,'*');
-                total +=1;
+                changeCell(arr,xPos,yPos,'*'); // mark it as so if it is
+                total +=1; // increment the total number of valid moves
             }
         }
     }
 
-    tempBoard.board = arr;
-    printBoard(tempBoard);
-    free(arr);
+    tempBoard.board = arr; // assign the current board to a struct to be printed
+    printBoard(tempBoard); // print the board out
+    free(arr); // free the memory allocated by the struct
 
-    return total;
+    return total; // return the number of valid moves
 }
 
 void printEnding(boardData gameBoard) {
@@ -183,7 +183,7 @@ void printEnding(boardData gameBoard) {
     }
     printf("The Final Board\n");
 
-    printBoard(gameBoard);
+    printBoard(gameBoard); // print the current board
 
     if(gameBoard.player1.score > gameBoard.player2.score){
         printf("%s has WON!\n", gameBoard.player1.name);
@@ -198,12 +198,13 @@ void printEnding(boardData gameBoard) {
 }
 
 int inLimits(char xPos, int yPos) {
-    int myBool = 0;
+    int myBool = 0; // default assume not in limit
     int x,y;
 
     x = xPos - 'a';
     y = yPos - 1;
 
+    // check if both values are between 0 and BOARDSIZE [8] ( 0 inclusive BOARDSIZE exclusive )
     if (
             x >= 0          &&
             x < BOARDSIZE  &&
@@ -217,7 +218,7 @@ int inLimits(char xPos, int yPos) {
 }
 
 unsigned short int moveCheck(boardData *gameBoard, char xPos, int yPos, char colour) {
-    unsigned short int total = 0;
+    unsigned short int total = 0; // stores the encoded moves
     /*
      * Total encodes all possible moves and store them bitwise
      * N    - 2^7 [128]
@@ -242,32 +243,33 @@ unsigned short int moveCheck(boardData *gameBoard, char xPos, int yPos, char col
     // check if it's an empty location
     if (gameBoard->board[y][x] == '\0'){
         // check all directions to see if there is a valid move
+        // N
         total += directionCheck(gameBoard,xPos,yPos,colour,7); // add the return value to the total (should be 0 or 1)
 
-        total <<= 1;
-        total += directionCheck(gameBoard,xPos,yPos,colour,6);
+        total <<= 1; // bit shift to the left
+        total += directionCheck(gameBoard,xPos,yPos,colour,6); // NE
 
         total <<= 1;
-        total += directionCheck(gameBoard,xPos,yPos,colour,5);
+        total += directionCheck(gameBoard,xPos,yPos,colour,5); // E
 
         total <<= 1;
-        total += directionCheck(gameBoard,xPos,yPos,colour,4);
+        total += directionCheck(gameBoard,xPos,yPos,colour,4); // SE
 
         total <<= 1;
-        total += directionCheck(gameBoard,xPos,yPos,colour,3);
+        total += directionCheck(gameBoard,xPos,yPos,colour,3); // S
 
         total <<= 1;
-        total += directionCheck(gameBoard,xPos,yPos,colour,2);
+        total += directionCheck(gameBoard,xPos,yPos,colour,2); // SW
 
         total <<= 1;
-        total += directionCheck(gameBoard,xPos,yPos,colour,1);
+        total += directionCheck(gameBoard,xPos,yPos,colour,1); // W
 
         total <<= 1;
-        total += directionCheck(gameBoard,xPos,yPos,colour,0);
+        total += directionCheck(gameBoard,xPos,yPos,colour,0); // NW
 
     }
 
-    return total;
+    return total; // return the encoded moves
 }
 
 short int directionCheck(boardData *gameBoard, char xPos, int yPos, char colour, int direction) {
@@ -384,48 +386,57 @@ short int doDirection(boardData *gameBoard, char xPos, int yPos, char colour, in
     while (1){
         switch (direction) {
             case 0:
+                // NW
                 x = x - 1;
                 y = y - 1;
                 break;
             case 1:
+                // W
                 x = x - 1;
                 y = y;
                 break;
             case 2:
+                // SW
                 x = x - 1;
                 y = y + 1;
                 break;
             case 3:
+                // S
                 x = x;
                 y = y + 1;
                 break;
             case 4:
+                // SE
                 x = x + 1;
                 y = y + 1;
                 break;
             case 5:
+                // E
                 x = x + 1;
                 y = y;
                 break;
             case 6:
+                // NE
                 x = x + 1;
                 y = y - 1;
                 break;
             case 7:
+                // N
                 x = x;
                 y = y - 1;
                 break;
             default:
+                // by default go north
                 x = x;
                 y = y - 1;
         }
 
-        if (y < 0 || y >= BOARDSIZE || x < 0 || x >= BOARDSIZE){
+        if (y < 0 || y >= BOARDSIZE || x < 0 || x >= BOARDSIZE){ // if we hit the edge of the board ( go out of bounds)
             break;
         }else if (arr[y][x] == '\0' || arr[y][x] == colour){ // check if it's an empty space or has the same colour
             break;
         }else{
-            changeCell(gameBoard->board, x + 'a', 1 + y, colour);
+            changeCell(gameBoard->board, x + 'a', 1 + y, colour); // set the tile to current player. Has the same effect as flipping the piece
         }
     }
 
@@ -435,7 +446,7 @@ short int doDirection(boardData *gameBoard, char xPos, int yPos, char colour, in
 }
 
 void doMove(boardData * gameBoard, char xPos, int yPos, char colour, unsigned short int encodedMoves) {
-    // bitwise and checks a specific location in the encoded moves and returns 0 if there's nothing or > 1 if there is something
+    // bitwise and checks a specific location in the encoded moves and returns 0 if there's nothing or != 0 if there is something, so do that move
     if(encodedMoves & 128){
         doDirection(gameBoard, xPos, yPos, colour, 7);
     }

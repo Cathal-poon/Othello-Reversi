@@ -21,7 +21,7 @@ int updateScore(boardData * gameBoard);
 
 int updateBoard(boardData gameBoard, player currentPlayer);
 /*
- * Print out and updated board with all the valid moves
+ * Print out an updated board with all the valid moves for a given player
  */
 
 void printEnding(boardData gameBoard);
