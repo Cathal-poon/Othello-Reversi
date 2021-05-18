@@ -41,9 +41,6 @@ int main() {
     }
 
     do {
-        printPlayers(&(myBoard.player1),&(myBoard.player2));
-        printBoard(myBoard);
-
         passBuffer = playerTurn(&myBoard,*firstPlayer);
         passCounter = (passCounter * passBuffer) + passBuffer;
 
@@ -51,9 +48,6 @@ int main() {
             gameStatus = 0;
             break;
         }
-
-        printPlayers(&(myBoard.player1),&(myBoard.player2));
-        printBoard(myBoard);
 
         passBuffer = playerTurn(&myBoard,*secondPlayer);
         passCounter = (passCounter * passBuffer) + passBuffer;
@@ -63,6 +57,10 @@ int main() {
             break;
         }
     } while (gameStatus);
+
+    // game has finished
+
+    printBoard(myBoard);
 
 
 

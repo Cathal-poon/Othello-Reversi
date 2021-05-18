@@ -14,9 +14,14 @@ int playerTurn(boardData * gameBoard, player currentPlayer);
  * Returns 0 if a valid move was played and 1 if the player passed
  */
 
-void updateScore(boardData * gameBoard);
+int updateScore(boardData * gameBoard);
 /*
  * Updates the score of the current game
+ */
+
+int updateBoard(boardData gameBoard, player currentPlayer);
+/*
+ * Print out and updated board with all the valid moves
  */
 
 #endif //ASSIGNMENT_2_GAMELOGIC_H

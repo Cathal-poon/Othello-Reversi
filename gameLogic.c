@@ -4,6 +4,8 @@
 
 #include "gameLogic.h"
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 
 short int directionCheck(boardData * gameBoard, char x, int y, char colour, int direction);
@@ -44,14 +46,26 @@ unsigned short int moveCheck(boardData * gameBoard, char x, int y, char colour);
 int playerTurn(boardData *gameBoard, player currentPlayer) {
     char myX;
     int myY;
-    int repeat = 1;
+    int repeat = 1, moveChoices;
     unsigned short valid;
 
+    printPlayers(&(gameBoard->player1),&(gameBoard->player2));
+    moveChoices = updateBoard(*gameBoard, currentPlayer);
     printf("%s's (%c) turn\n", currentPlayer.name, currentPlayer.colour);
+
+    if(moveChoices == 0){ // there are no vaild moves
+        printf("No valid Moves. Passed\n");
+        return 1; //pass
+    }
+
     do {
-        fflush(stdin);
+        //fflush(stdin);
         printf("Please enter a valid move location on the board, letter then number; or enter 'p' for pass:\n");
-        myX = (char) getchar(); // read in the letter
+
+        do {
+            myX = (char) getchar(); // read in the letter
+        } while (myX == '\n' || myX == ' '); // keep reading until it's not a common whitespace character
+        // lets be do a move dump into the console
 
         // if the character is uppercase convert it to a lowercase
         if (myX >= 'A' && myX <= 'Y'){
@@ -75,18 +89,19 @@ int playerTurn(boardData *gameBoard, player currentPlayer) {
                 // do the move
                 changeCell(gameBoard->board, myX, myY, currentPlayer.colour);
                 doMove(gameBoard, myX, myY, currentPlayer.colour, valid);
-                updateScore(gameBoard);
-                repeat = 0;
+                repeat = 0; // update score should return 0 if there are empty spaces left
+
             }
         }
 
     } while (repeat);
 
+    repeat += updateScore(gameBoard);
     return repeat;
 }
 
-void updateScore(boardData *gameBoard) {
-    int black = 0, white = 0; // counters to keep track of the number of pieces of their respective colour on the board
+int updateScore(boardData *gameBoard) {
+    int black = 0, white = 0, total = 0; // counters to keep track of the number of pieces of their respective colour on the board
     char buffer;
     char ** arr;
 
@@ -97,8 +112,10 @@ void updateScore(boardData *gameBoard) {
             buffer = arr[i][j];
             if (buffer == 'b'){
                 black += 1;
+                total += 0;
             } else if(buffer == 'w'){
                 white += 1;
+                total += 0;
             }
         }
     }
@@ -112,7 +129,45 @@ void updateScore(boardData *gameBoard) {
         gameBoard->player1.score = white;
     }
 
+    if (total == BOARDSIZE * BOARDSIZE){ // the board is full
+        return 10;
+    } else if(black == 0 || white == 0){
+        return 10;
+    } else{
+        return 0;
+    }
+}
 
+int updateBoard(boardData gameBoard, player currentPlayer) {
+    char **arr;
+    char xPos;
+    int yPos;
+    int total = 0;
+    int valid;
+
+    boardData tempBoard;
+
+    arr = initialiseBoard();
+
+    for (int i = 0; i < BOARDSIZE; ++i) {
+        for (int j = 0; j < BOARDSIZE; ++j) {
+            xPos = 'a' + j;
+            yPos = 1 + i;
+
+            arr[i][j] = gameBoard.board[i][j]; // copy over the current board's state
+            valid = moveCheck(&gameBoard, xPos, yPos, currentPlayer.colour);
+            if (valid){
+                changeCell(arr,xPos,yPos,'*');
+                total +=1;
+            }
+        }
+    }
+
+    tempBoard.board = arr;
+    printBoard(tempBoard);
+    free(arr);
+
+    return total;
 }
 
 int inLimits(char xPos, int yPos) {
@@ -279,7 +334,7 @@ short int directionCheck(boardData *gameBoard, char xPos, int yPos, char colour,
         if (y < 0 || y >= BOARDSIZE || x < 0 || x >= BOARDSIZE){
             myBool = 0;
             break;
-        }else if (arr[y][x] == '\0'){ // check if it's an empty space
+        }else if (arr[y][x] == '\0' || arr[y][x] == '*'){ // check if it's an empty space
             myBool = 0;
             break;
         }else if (arr[y][x] == colour){
@@ -333,6 +388,9 @@ short int doDirection(boardData *gameBoard, char xPos, int yPos, char colour, in
                 x = x;
                 y = y - 1;
                 break;
+            default:
+                x = x;
+                y = y - 1;
         }
 
         if (y < 0 || y >= BOARDSIZE || x < 0 || x >= BOARDSIZE){
