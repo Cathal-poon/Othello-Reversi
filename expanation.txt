@@ -1,0 +1,89 @@
+The game board was stored as an array.
+I decided to use dynamic memory allocation to make it easier to store it into a struct with a single pointer.
+I wanted to use array notation so I decided to use double pointers.
+I did not want to use multiple malloc calls.
+
+I decided to use one malloc call and sacrifice a bit of memory efficiency.
+
+I would have a 8 + 64 value array.
+
+The first 8 values would be 8 pointers that would point to the beginning of each row in the array.
+The remaining 64 values would be character used to store pieces.
+
+I originally decided to just print the chracters with spaces in between them.
+Due to this I needed to be able to show a blank space without showing whitespace so I decided on '*'
+
+During testing i found this hard to read as the game progressed.
+
+I change how the board was displayed to what it is currently now.
+The spacing was decided to make empty spaces look like a square.
+This allowed me to change empty spaces from '*' to ' ' (\0 null character)
+
+The board would then be stored into a structure.
+
+This structure would also contain information about the players.
+
+The players were also structures, which stored the names, score and colour.
+Storing the colour as the symbol that the board used helped by not being required to check which symbol was needed and instead just reading from the structure.
+
+------------------------------------------
+The game logic was initially difficult.
+
+On deeper analysis it was discovered that there were only 4 possibilities when checking a single direction of a move.
+It was the edge of the board, therefore invalid move;
+It was an empty space, therefore invalid move;
+It was my own colour, need more information;
+It was another colour, need more information, check the next tile;
+
+If the assumption was made that the move was by default invalid. The when my own colour was reach take the assumed case.
+If my own colour was the first on encountered, the assumed case would be invalid.
+If it was not the first one reached then there must've been other colours reached.
+This is because all other cases would've exited the loop, encountering a piece of a different colour is the only case where the loop continues.
+
+So if the piece is of another colour, assume the move is valid.
+
+If I did this with all 8 direction I would have a combination of 0 and 1 for the "valid" value.
+This combination was unique to each combination of directions.
+I used this fact to encode the moves into a single integer.
+I could then decode this to figure out which moves to do.
+
+Instead of flipping a given piece I would over-write them without checking.
+Having the player store the piece's representation meant that I didn't need to check what was was and could just write over it, if it was a valid move.
+This had the same effect as flipping the piece
+
+----------------------------------------------------
+Checking the winner just had me reading the values from the 2 players' score and reading from whoever had the largest.
+
+--------------------------------------------
+Saving this all to a file presented with some difficulties.
+
+The time was done with time.h and the strftime() function.
+This gave me a string that with the formatted time.
+
+Identifying the winner was also easy.
+
+If however there was no winner then showing a draw would be a bit difficult.
+The format that i needed to print was different.
+I eventually decided to just hard code a draw.
+This could be done better. I just implemented the simplest thing I could.
+
+-----------------------------------------------
+I originally had the input buffer (stdin) be cleared out every time before reading a move.
+However I discovered that testing became tedious, I wanted to just copy and paste a know set of moves that would lead to a certain game state.
+This led to the change where instead of clearing I would just keep reading moves and ignore the 2 most common whitespace, '\n'(newline) and ' ' (space).
+I also allowed the code to just deal with capital letters by converting them to lowercase before working with them.
+This also had the added effect of making the logic easier to follow because I didn't need to check 2 sets of values, lowercase and uppercase.
+
+----------------------------------------------
+I decided to implement a visual way of showing where valid moves were.
+
+I repurposed the * to visually represent where valid moves were.
+This was achieved by generating a new board, looking at the current board and checking if a move was valid.
+If it wasn't to just copy what was in the original board.
+If it was to make it with an '*'
+
+Then printing out this new board before discarding it.
+
+
+
+
