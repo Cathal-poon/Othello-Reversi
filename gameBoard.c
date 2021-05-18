@@ -75,10 +75,10 @@ char ** initialiseBoard() {
             arr[i] = ptr + (BOARDSIZE * i); // set each index pointing to the corresponding location in the 2d array
         }
 
-        // populate the board with blank spaces '*'
+        // populate the board with blank spaces '\0'
         for (int i = 0; i < BOARDSIZE; ++i) {
             for (int j = 0; j < BOARDSIZE; ++j) {
-                arr[i][j] = '*';
+                arr[i][j] = '\0';
             }
         }
 

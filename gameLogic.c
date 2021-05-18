@@ -158,7 +158,7 @@ unsigned short int moveCheck(boardData *gameBoard, char xPos, int yPos, char col
     y = yPos - 1;
 
     // check if it's an empty location
-    if (gameBoard->board[y][x] == '*'){
+    if (gameBoard->board[y][x] == '\0'){
         // check all directions to see if there is a valid move
         total += directionCheck(gameBoard,xPos,yPos,colour,7); // add the return value to the total (should be 0 or 1)
 
@@ -279,7 +279,7 @@ short int directionCheck(boardData *gameBoard, char xPos, int yPos, char colour,
         if (y < 0 || y >= BOARDSIZE || x < 0 || x >= BOARDSIZE){
             myBool = 0;
             break;
-        }else if (arr[y][x] == '*'){ // check if it's an empty space
+        }else if (arr[y][x] == '\0'){ // check if it's an empty space
             myBool = 0;
             break;
         }else if (arr[y][x] == colour){
@@ -337,7 +337,7 @@ short int doDirection(boardData *gameBoard, char xPos, int yPos, char colour, in
 
         if (y < 0 || y >= BOARDSIZE || x < 0 || x >= BOARDSIZE){
             break;
-        }else if (arr[y][x] == '*' || arr[y][x] == colour){ // check if it's an empty space or has the same colour
+        }else if (arr[y][x] == '\0' || arr[y][x] == colour){ // check if it's an empty space or has the same colour
             break;
         }else{
             changeCell(gameBoard->board, x + 'a', 1 + y, colour);
