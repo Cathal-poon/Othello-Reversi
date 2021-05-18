@@ -54,8 +54,8 @@ int playerTurn(boardData *gameBoard, player currentPlayer) {
     printf("%s's (%c) turn\n", currentPlayer.name, currentPlayer.colour); // notify the user that it's their turn
 
     if(moveChoices == 0){ // there are no vaild moves
-        printf("No valid Moves. Passed\n"); // notify the user that they have been passed
-        return 1; // indicate a pass, move onto the next player
+        printf("-----No valid Moves. Passed----------\n"); // notify the user that they have been passed
+        return repeat; // indicate a pass, move onto the next player
     }
 
     do {
@@ -72,11 +72,13 @@ int playerTurn(boardData *gameBoard, player currentPlayer) {
             myX -= 'A';
             myX += 'a';
         }
+/*
 
         // if a pass is requested then skip everything and go to the next player
         if (myX == 'p'){
             break;
         }
+*/
 
         myY = getchar(); // read in the digit
         myY -= '0'; // convert it from an ascii value to an integer
