@@ -64,6 +64,8 @@ int main() {
 
     printEnding(myBoard);
 
+    saveResults(myBoard);
+
     free(myBoard.board); //free the memory allocated for the board
     return 0;
 }

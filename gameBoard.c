@@ -12,7 +12,8 @@
 #include "gameBoard.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <time.h>
+#include <string.h>
 
 void printBoard(boardData gameBoard) {
     char **arr = gameBoard.board; // assign arr to point to the current board
@@ -106,5 +107,73 @@ void changeCell(char **arr, char xPos, int yPos, char colour) {
     y = yPos - 1; // maps board rows to array indexes
 
     arr[y][x] = colour;
+}
+
+void saveResults(boardData gameBoard) {
+    const char *filePath = "othello-results.txt";
+    FILE *fp;
+    time_t rawtime;
+    struct tm *myTime;
+    char timeBuffer[80]; // a buffer to store 80 character from a stringed time and date
+
+    char *ptr1 = NULL, *ptr2 = NULL; // pointers that point to the two strings
+    char strWhite[] = "White";
+    char strBlack[] = "Black";
+
+
+    // get the time and format it accordingly
+    time(&rawtime);
+    myTime = localtime(&rawtime);
+    strftime(timeBuffer,80,"%d/%m/%Y - %I:%M%p", myTime);
+
+    // associate the correct colour to the correct player
+    if (gameBoard.player1.colour == 'w'){
+        ptr1 = strWhite;
+        ptr2 = strBlack;
+    } else{
+        ptr1 = strBlack;
+        ptr2 = strWhite;
+    }
+
+    fp = fopen(filePath, "a");
+
+    if(gameBoard.player1.score > gameBoard.player2.score){
+        // player 1 wins
+        fprintf(fp,
+                "|%s| %s won. Final Score: %s (%s) %d:%d %s (%s)\n",
+                timeBuffer,
+                gameBoard.player1.name,
+                gameBoard.player1.name,
+                ptr1,
+                gameBoard.player1.score,
+                gameBoard.player2.score,
+                gameBoard.player2.name,
+                ptr2);
+    } else if(gameBoard.player2.score > gameBoard.player1.score){
+        // player 2 wins
+        fprintf(fp,
+                "|%s| %s won. Final Score: %s (%s) %d:%d %s (%s)\n",
+                timeBuffer,
+                gameBoard.player2.name,
+                gameBoard.player1.name,
+                ptr1,
+                gameBoard.player1.score,
+                gameBoard.player2.score,
+                gameBoard.player2.name,
+                ptr2);
+    } else {
+        // draw game
+        fprintf(fp,
+                "|%s| Draw. Final Score: %s (%s) %d:%d %s (%s)\n",
+                timeBuffer,
+                gameBoard.player1.name,
+                ptr1,
+                gameBoard.player1.score,
+                gameBoard.player2.score,
+                gameBoard.player2.name,
+                ptr2);
+    }
+
+    fclose(fp);
 }
 

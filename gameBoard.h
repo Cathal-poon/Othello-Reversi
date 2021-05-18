@@ -33,4 +33,9 @@ void changeCell(char **arr, char x, int y, char c);
  * Set a certain cell to a specific colour
  */
 
+void saveResults(boardData gameBoard);
+/*
+ * Appends the results of the game to a predetermined file
+ */
+
 #endif //ASSIGNMENT_2_GAMEBOARD_H
