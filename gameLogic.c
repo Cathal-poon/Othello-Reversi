@@ -170,6 +170,33 @@ int updateBoard(boardData gameBoard, player currentPlayer) {
     return total;
 }
 
+void printEnding(boardData gameBoard) {
+
+    for (int i = 0; i < 18; ++i) {
+        printf("%c", ' '); // print 18 whitespaces
+    }
+
+    printf("*** Game Over ***\n");
+
+    for (int i = 0; i < 18; ++i) {
+        printf("%c", ' '); // print 18 whitespaces
+    }
+    printf("The Final Board\n");
+
+    printBoard(gameBoard);
+
+    if(gameBoard.player1.score > gameBoard.player2.score){
+        printf("%s has WON!\n", gameBoard.player1.name);
+    } else if(gameBoard.player2.score > gameBoard.player1.score){
+        printf("%s has WON!\n", gameBoard.player2.name);
+    } else {
+        printf("The game has ended in a draw\n");
+    }
+
+    printf("The Final ");
+    printPlayers(&(gameBoard.player1),&(gameBoard.player2));
+}
+
 int inLimits(char xPos, int yPos) {
     int myBool = 0;
     int x,y;

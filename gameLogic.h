@@ -24,4 +24,9 @@ int updateBoard(boardData gameBoard, player currentPlayer);
  * Print out and updated board with all the valid moves
  */
 
+void printEnding(boardData gameBoard);
+/*
+ * prints out the final board, the winner and the scores
+ */
+
 #endif //ASSIGNMENT_2_GAMELOGIC_H
